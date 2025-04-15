@@ -1,8 +1,7 @@
 'use client';
-
 import { useEffect, useState, useCallback } from 'react';
 
-export default function InventoryTable() {
+export default function InventoryTable({ refreshKey }) {
   const [logs, setLogs] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
@@ -10,11 +9,10 @@ export default function InventoryTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch logs from the server
   const fetchLogs = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/inventory', { cache: 'no-store' }); // Disable cache to fetch fresh data
+      const res = await fetch('/api/inventory', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch inventory data');
       const data = await res.json();
       setLogs(data);
@@ -27,12 +25,10 @@ export default function InventoryTable() {
     }
   }, []);
 
-  // Initial fetch
   useEffect(() => {
     fetchLogs();
-  }, [fetchLogs]);
+  }, [fetchLogs, refreshKey]); // <- React to refreshKey
 
-  // Apply filters
   useEffect(() => {
     let result = [...logs];
     if (type !== 'All') {
@@ -58,7 +54,6 @@ export default function InventoryTable() {
     <div className="bg-gray-800 text-gray-200 p-6 rounded-xl shadow-lg mt-6">
       <h2 className="text-2xl font-semibold text-white mb-4">Inventory Logs</h2>
 
-      {/* Filter Options */}
       <div className="flex gap-4 mb-4">
         <select
           value={type}
@@ -81,7 +76,6 @@ export default function InventoryTable() {
         />
       </div>
 
-      {/* Inventory Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm border border-gray-600">
           <thead>

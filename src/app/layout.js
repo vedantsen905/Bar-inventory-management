@@ -26,12 +26,8 @@ export default function RootLayout({ children }) {
               <Link href="/dashboard/user" className="text-gray-200 hover:text-blue-400 hover:underline transition duration-300">
                 User Dashboard
               </Link>
-              <Link href="/inventory" className="text-gray-200 hover:text-blue-400 hover:underline transition duration-300">
-                Inventory Page
-              </Link>
-              <Link href="/products" className="text-gray-200 hover:text-blue-400 hover:underline transition duration-300">
-                Products
-              </Link>
+               
+               
             </div>
           </div>
         </nav>

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function InventoryForm() {
+export default function InventoryForm({ onSubmitSuccess }) {
   const [form, setForm] = useState({
     productId: '',
     date: new Date().toISOString().split('T')[0],
@@ -55,9 +55,10 @@ export default function InventoryForm() {
       const data = await res.json();
       if (res.ok) {
         toast.success("Inventory log saved!");
-        setForm((prev) => ({
-          ...prev,
+        setForm({
           productId: '',
+          date: new Date().toISOString().split('T')[0],
+          timestamp: new Date().toISOString(),
           transactionType: 'Purchase',
           quantityBottles: '',
           quantityMl: '',
@@ -65,7 +66,8 @@ export default function InventoryForm() {
           purchaseReceiptNumber: '',
           recordedBy: '',
           notes: '',
-        }));
+        });
+        if (onSubmitSuccess) onSubmitSuccess(); // Trigger table refresh
       } else {
         toast.error(data.error || "Failed to save.");
       }
@@ -83,7 +85,7 @@ export default function InventoryForm() {
           name="productId"
           value={form.productId}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         >
           <option value="">Select Product</option>
           {products.map((product) => (
@@ -97,7 +99,7 @@ export default function InventoryForm() {
           name="transactionType"
           value={form.transactionType}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         >
           <option value="Purchase">Purchase</option>
           <option value="Opening Stock">Opening Stock</option>
@@ -111,7 +113,7 @@ export default function InventoryForm() {
           placeholder="Quantity (in Bottles)"
           value={form.quantityBottles}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         />
 
         <input
@@ -119,7 +121,7 @@ export default function InventoryForm() {
           placeholder="Vendor Name (optional)"
           value={form.purchaseVendor}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         />
 
         <input
@@ -127,7 +129,7 @@ export default function InventoryForm() {
           placeholder="Receipt Number (optional)"
           value={form.purchaseReceiptNumber}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         />
 
         <input
@@ -135,7 +137,7 @@ export default function InventoryForm() {
           placeholder="Recorded By"
           value={form.recordedBy}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         />
 
         <textarea
@@ -143,7 +145,7 @@ export default function InventoryForm() {
           placeholder="Additional Notes (optional)"
           value={form.notes}
           onChange={handleChange}
-          className="input bg-slate-700 border border-slate-600 rounded px-3 py-2"
+          className="bg-slate-700 border border-slate-600 rounded px-3 py-2"
         />
 
         <button

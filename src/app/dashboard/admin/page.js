@@ -11,12 +11,7 @@ export default function AdminDashboard() {
           <Link href="/dashboard/admin" className="text-blue-500 hover:text-blue-700 transition duration-300">
             Dashboard
           </Link>
-          <Link href="/inventory" className="text-blue-500 hover:text-blue-700 transition duration-300">
-            Inventory
-          </Link>
-          <Link href="/products" className="text-blue-500 hover:text-blue-700 transition duration-300">
-            Products
-          </Link>
+ 
           <Link href="/dashboard/user" className="text-blue-500 hover:text-blue-700 transition duration-300">
             User View
           </Link>
